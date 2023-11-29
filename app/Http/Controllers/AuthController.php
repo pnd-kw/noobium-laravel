@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Requests\Auth\SignUpRequest;
+use App\Http\Requests\Auth\SignInRequest;
 
 class AuthController extends Controller
 {
@@ -48,8 +49,55 @@ class AuthController extends Controller
                 'access_token' => [
                     'token' => $token,
                     'type' => 'Bearer',
-                    'expires_in' => strtotime('+' . auth()->factory()->getTTL() . 'minutes'),
+                    'expires_in' => strtotime('+' . auth()->factory()->getTTL() . ' minutes'),
                 ]
+            ],
+        ]);
+    }
+
+    public function signIn(SignInRequest $request)
+    {
+        // request body
+        // email
+        // password
+        // hit api
+        // cocokkan credential
+        // kalau ngga cocok return 401 error
+        // kalau cocok generate token dan kembalikan data user untuk disimpan di front end
+
+        $token = auth()->attempt($request->validated());
+
+        if(!$token)
+        {
+            return response()->json([
+                'meta' => [
+                    'code' => 401,
+                    'status' => 'error',
+                    'message' => 'Incorrect email or password',
+                ],
+                'data' => [],
+            ], 401);
+        }
+
+        $user = auth()->user();
+
+        return response()->json([
+            'meta' => [
+                'code' => 200,
+                'status' => 'success',
+                'message' => 'Signed in successfully',
+            ],
+            'data' => [
+                'user' => [
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'picture' => $user->picture,
+                ],
+                'access_token' => [
+                    'token' => $token,
+                    'type' => 'Bearer',
+                    'expires_in' => strtotime('+' . auth()->factory()->getTTL() . ' minutes'),
+                ],
             ],
         ]);
     }
