@@ -22,6 +22,7 @@ Route::middleware('auth:api')->group(function() {
     // Route::get('/auth-only', [AuthController::class, function() { return response()->json(['data' => 'oy']); }]);
     Route::prefix('/me')->group(function() {
         Route::get('/profile', [ProfileController::class, 'show']);
+        Route::put('/profile', [ProfileController::class, 'update']);
     });
     Route::post('/sign-out', [AuthController::class, 'signOut']);
 });
