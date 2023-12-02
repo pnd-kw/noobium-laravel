@@ -21,6 +21,7 @@ Route::post('/sign-up', [AuthController::class, 'signUp']);
 Route::post('/sign-in', [AuthController::class, 'signIn']);
 
 Route::get('/categories', [CategoryController::class, 'index']);
+Route::get('/categories/{categorySlug}', [CategoryController::class, 'show']);
 
 Route::middleware('auth:api')->group(function() {
     // Route::get('/auth-only', [AuthController::class, function() { return response()->json(['data' => 'oy']); }]);
