@@ -254,4 +254,69 @@ class ArticleController extends Controller
             'data' => [],
         ], 404);
     }
+
+    public function destroy($id)
+    {
+        // get article by id
+        // cek apakah article ada
+        // jika iya maka get user id yg sedang login
+        // cek apakah user id article sama dengan id dari user yg sedang login
+        // jika iya maka delete article
+        // cek apakah article berhasil didelete
+        // jika iya maka kembalikan response success
+        // (jika kode ini dieksekusi maka article gagal didelete) kembalikan response error 500
+        // (jika kode ini dieksekusi maka artinya article ini bukan milik user yg login) kembalikan response error 401, unauthorized
+        // (jika kode ini dieksekusi maka artinya article tidak ditemukan) kembalikan response error 404, article not found
+
+        $article = Article::find($id);
+
+        if ($article)
+        {
+            $userId = auth()->id();
+
+            if ($article->user_id === $userId)
+            {
+                $deleteArticle = $article->delete();
+
+                if ($deleteArticle)
+                {
+                    return response()->json([
+                        'meta' => [
+                            'code' => 200,
+                            'status' => 'success',
+                            'message' => 'Article deleted successfully',
+                        ],
+                        'data' => [],
+                    ]);
+                }
+
+                return response()->json([
+                    'meta' => [
+                        'code' => 500,
+                        'status' => 'error',
+                        'message' => 'Error! Article failed to delete',
+                    ],
+                    'data' => [],
+                ], 500);
+            }
+
+            return response()->json([
+                'meta' => [
+                    'code' => 401,
+                    'status' => 'error',
+                    'message' => 'Unauthorized',
+                ],
+                'data' => [],
+            ], 401);
+        }
+
+        return response()->json([
+            'meta' => [
+                'code' => 404,
+                'status' => 'error',
+                'message' => 'Article not found',
+            ],
+            'data' => [],
+        ], 404);
+    }
 }
