@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Me\ProfileController;
 use App\Http\Controllers\Me\ArticleController as MeArticleController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ArticleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,8 @@ Route::post('/sign-in', [AuthController::class, 'signIn']);
 
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/categories/{categorySlug}', [CategoryController::class, 'show']);
+
+Route::get('/articles', [ArticleController::class, 'index']);
 
 Route::middleware('auth:api')->group(function() {
     // Route::get('/auth-only', [AuthController::class, function() { return response()->json(['data' => 'oy']); }]);
