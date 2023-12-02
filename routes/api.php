@@ -7,6 +7,7 @@ use App\Http\Controllers\Me\ProfileController;
 use App\Http\Controllers\Me\ArticleController as MeArticleController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\GoogleAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +21,8 @@ use App\Http\Controllers\ArticleController;
 */
 Route::post('/sign-up', [AuthController::class, 'signUp']);
 Route::post('/sign-in', [AuthController::class, 'signIn']);
+
+Route::post('/sign-in/google', [GoogleAuthController::class, 'signIn']);
 
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/categories/{categorySlug}', [CategoryController::class, 'show']);
