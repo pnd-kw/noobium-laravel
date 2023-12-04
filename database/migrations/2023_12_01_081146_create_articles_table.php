@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->string('content_preview');
-            $table->string('content');
+            $table->longtext('content');
             $table->string('featured_image');
             $table->timestamps();
         });
